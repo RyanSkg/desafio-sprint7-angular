@@ -1,0 +1,22 @@
+# Dependências (cada pasta tem seu próprio node_modules)
+node_modules/
+
+# Build/cache do Angular
+dist/
+.angular/
+
+# Variáveis de ambiente
+.env
+.env.local
+
+# Ferramentas de editor/assistente
+.claude/
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+*.log

@@ -1,0 +1,84 @@
+/* Estilos globais do Ford Dashboard */
+@use 'styles/variables';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-control {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--foreground);
+
+  &::placeholder {
+    color: var(--muted-fg);
+  }
+
+  &:focus {
+    background-color: var(--surface);
+    border-color: var(--brand);
+    color: var(--foreground);
+    box-shadow: 0 0 0 0.2rem var(--accent);
+  }
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--muted-fg);
+}
+
+/* Área de conteúdo abaixo do cabeçalho fixo (64px) e à direita da sidebar (240px, a partir de 992px) */
+.conteudo {
+  min-height: 100vh;
+  padding: 84px 1.25rem 2rem;
+
+  @media (min-width: 992px) {
+    margin-left: 240px;
+    padding: 96px 2.5rem 2.5rem;
+  }
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+    color: var(--foreground);
+  }
+
+  p {
+    color: var(--muted-fg);
+    margin-bottom: 0;
+    font-size: 0.9rem;
+  }
+}
