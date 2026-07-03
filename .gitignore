@@ -9,10 +9,30 @@ dist/
 .env
 .env.local
 
+# Ferramentas de editor/assistente
+.claude/
+.idea/
+
 # Sistema operacional
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Logs
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 *.log
+
+# Cache de build incremental do TypeScript
+*.tsbuildinfo
+
+# Historico local de edicoes (extensao Local History do VS Code)
+.history/*
+
+# VS Code (na raiz do projeto; o FrontEnd tem sua propria lista)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
