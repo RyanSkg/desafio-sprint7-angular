@@ -14,10 +14,6 @@
     <div class="avatar">{{ usuario.nome.charAt(0) | uppercase }}</div>
     <span class="usuario-nome">{{ usuario.nome }}</span>
   </div>
-
-  <button type="button" class="botaoSair" title="Sair" (click)="sair()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-  </button>
 </header>
 
 <div class="sobreposicao" [class.sobreposicao--visivel]="menuAberto" (click)="fecharMenu()"></div>
@@ -40,4 +36,11 @@
       </li>
     </ul>
   </nav>
+
+  <div class="rodape">
+    <button type="button" class="categorias-link categorias-link--sair" (click)="sair()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+      <span>Sair</span>
+    </button>
+  </div>
 </aside>
