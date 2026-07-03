@@ -9,10 +9,6 @@ dist/
 .env
 .env.local
 
-# Ferramentas de editor/assistente
-.claude/
-.idea/
-
 # Sistema operacional
 .DS_Store
 Thumbs.db
