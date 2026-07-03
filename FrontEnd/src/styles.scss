@@ -50,13 +50,14 @@ body {
   color: var(--muted-fg);
 }
 
-/* Área de conteúdo abaixo do cabeçalho fixo (64px) e à direita da sidebar (240px, a partir de 992px) */
+/* Área de conteúdo abaixo do cabeçalho fixo (64px). A sidebar é sempre um
+   menu hambúrguer (off-canvas), então o conteúdo não reserva espaço fixo
+   para ela em nenhum tamanho de tela. */
 .conteudo {
   min-height: 100vh;
   padding: 84px 1.25rem 2rem;
 
   @media (min-width: 992px) {
-    margin-left: 240px;
     padding: 96px 2.5rem 2.5rem;
   }
 }

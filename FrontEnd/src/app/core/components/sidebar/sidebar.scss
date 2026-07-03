@@ -25,10 +25,6 @@
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--muted-fg);
-
-  @media (min-width: 992px) {
-    display: none;
-  }
 }
 
 .logo {
@@ -117,10 +113,6 @@
   transform: translateX(-100%);
   transition: transform 0.2s ease;
 
-  @media (min-width: 992px) {
-    transform: translateX(0);
-  }
-
   &--aberta {
     transform: translateX(0);
   }
@@ -179,9 +171,5 @@
   &--visivel {
     opacity: 1;
     pointer-events: auto;
-  }
-
-  @media (min-width: 992px) {
-    display: none;
   }
 }
