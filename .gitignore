@@ -10,7 +10,6 @@ dist/
 .env.local
 
 # Ferramentas de editor/assistente
-.claude/
 .idea/
 
 # Sistema operacional
