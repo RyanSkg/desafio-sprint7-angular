@@ -1,0 +1,164 @@
+<app-sidebar></app-sidebar>
+
+<div class="conteudo">
+  <header class="cabecalho">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Indicadores da frota Ford em tempo real</p>
+    </div>
+  </header>
+
+  <!-- Destaques (Passo 9): os 3 veículos com maior volume de vendas -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-4" *ngFor="let veiculo of emDestaque(); let i = index">
+      <button type="button" class="cartaoDestaque animate-fade-in" (click)="selecionarVeiculo(veiculo)">
+        <div class="cartaoDestaque-topo">
+          <span class="iconeDestaque" [class.iconeDestaque--1]="i === 1" [class.iconeDestaque--2]="i === 2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="iconeLink"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+        </div>
+
+        <p class="cartaoDestaque-rotulo">Ford {{ veiculo.vehicle }}</p>
+        <h3 class="cartaoDestaque-taxa">
+          {{ taxaConectividade(veiculo) }}%
+          <span class="selo" [class.selo--on]="taxaConectividade(veiculo) >= 50" [class.selo--off]="taxaConectividade(veiculo) < 50">
+            {{ veiculo.connected | number }} conectados
+          </span>
+        </h3>
+
+        <svg class="miniGrafico" [class.miniGrafico--baixa]="taxaConectividade(veiculo) < 50" viewBox="0 0 120 32" preserveAspectRatio="none">
+          <polyline *ngIf="i % 3 === 0" points="0,24 15,20 30,22 45,12 60,16 75,6 90,10 105,4 120,8" />
+          <polyline *ngIf="i % 3 === 1" points="0,10 15,14 30,8 45,18 60,12 75,20 90,16 105,24 120,20" />
+          <polyline *ngIf="i % 3 === 2" points="0,18 15,10 30,16 45,8 60,20 75,14 90,22 105,12 120,18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <!-- Busca por modelo (Passo 8) + imagem do veículo selecionado (Passo 10) -->
+    <div class="col-lg-5">
+      <div class="painelPrincipal h-100">
+        <div class="painelPrincipal-cabecalho">
+          <h2>Buscar veículo por modelo</h2>
+          <div class="campoBusca">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input
+              type="text"
+              placeholder="Ex.: Mustang, Ranger, Territory..."
+              [ngModel]="termoBuscaModelo"
+              (ngModelChange)="onBuscaModeloChange($event)"
+            />
+          </div>
+        </div>
+
+        <div class="chipsFrota" *ngIf="veiculosFiltrados().length">
+          <button
+            *ngFor="let veiculo of veiculosFiltrados()"
+            type="button"
+            class="chip"
+            [class.chip--ativo]="veiculoSelecionado()?.id === veiculo.id"
+            (click)="selecionarVeiculo(veiculo)"
+          >
+            {{ veiculo.vehicle }}
+          </button>
+        </div>
+
+        <p class="textoFraco small mt-3 mb-0" *ngIf="!carregandoVeiculos() && !veiculosFiltrados().length">
+          Nenhum veículo encontrado para "{{ termoBuscaModelo }}".
+        </p>
+
+        <div class="imagemVeiculo mt-4" *ngIf="veiculoSelecionado() as veiculo">
+          <img [src]="veiculo.img" [alt]="veiculo.vehicle" class="imagemVeiculo-img animate-fade-in" />
+          <p class="imagemVeiculo-legenda">Ford {{ veiculo.vehicle }}</p>
+        </div>
+
+        <div class="text-center py-5" *ngIf="carregandoVeiculos()">
+          <div class="spinner-border" role="status"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="row g-3 h-100">
+        <!-- Cartões de indicadores (Passo 9) -->
+        <div class="col-md-4">
+          <div class="cartaoMetrica animate-fade-in h-100">
+            <p class="cartaoMetrica-rotulo">Total de vendas</p>
+            <h3 class="cartaoMetrica-valor">
+              {{ veiculoSelecionado() ? (veiculoSelecionado()?.volumetotal | number) : '—' }}
+            </h3>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="cartaoMetrica animate-fade-in h-100">
+            <p class="cartaoMetrica-rotulo">Veículos conectados</p>
+            <h3 class="cartaoMetrica-valor">
+              {{ veiculoSelecionado() ? (veiculoSelecionado()?.connected | number) : '—' }}
+            </h3>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="cartaoMetrica animate-fade-in h-100">
+            <p class="cartaoMetrica-rotulo">Software atualizado</p>
+            <h3 class="cartaoMetrica-valor">
+              {{ veiculoSelecionado() ? (veiculoSelecionado()?.softwareUpdates | number) : '—' }}
+            </h3>
+          </div>
+        </div>
+
+        <!-- Busca por código do veículo (Passo 11) -->
+        <div class="col-12">
+          <div class="painelPrincipal animate-fade-in">
+            <div class="painelPrincipal-cabecalho">
+              <h2>Buscar por código (VIN)</h2>
+              <div class="campoBusca">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                <input
+                  type="text"
+                  placeholder="Ex.: 2FRHDUYS2Y63NHD22454"
+                  [ngModel]="vin"
+                  (ngModelChange)="onBuscaVinChange($event)"
+                />
+              </div>
+            </div>
+
+            <div class="alert alert-danger py-2 animate-fade-in mt-3" *ngIf="erroVin()">{{ erroVin() }}</div>
+
+            <div class="table-responsive mt-3">
+              <table class="table align-middle tabelaEscura">
+                <thead>
+                  <tr>
+                    <th>Código - VIN</th>
+                    <th>Odômetro</th>
+                    <th>Combustível</th>
+                    <th>Status</th>
+                    <th>Localização</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="dadosVeiculo() as dados" class="animate-fade-in">
+                    <td class="textoFraco">{{ vin }}</td>
+                    <td>{{ dados.odometro | number }} km</td>
+                    <td>{{ dados.nivelCombustivel }}%</td>
+                    <td><span [class]="statusBadgeClass(dados.status)">{{ dados.status === 'on' ? 'Ligado' : 'Desligado' }}</span></td>
+                    <td>{{ dados.lat }} / {{ dados.long }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="text-center py-4" *ngIf="carregandoVin()">
+                <div class="spinner-border" role="status"></div>
+              </div>
+
+              <p class="textoFraco small text-center py-3 mb-0" *ngIf="!carregandoVin() && !dadosVeiculo() && !erroVin()">
+                Digite um código VIN completo para buscar (ex.: 2FRHDUYS2Y63NHD22454).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

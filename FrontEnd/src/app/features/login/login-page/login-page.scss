@@ -1,0 +1,48 @@
+.pagina-login {
+  background: radial-gradient(circle at 20% 20%, var(--surface-2), var(--background) 60%);
+}
+
+.cartao-login {
+  width: 100%;
+  max-width: 380px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.texto-fraco {
+  color: var(--muted-fg);
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--brand-muted), var(--brand));
+  color: var(--brand-foreground);
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.botao-entrar {
+  background: var(--brand);
+  border: none;
+  color: var(--brand-foreground);
+  font-weight: 600;
+  padding: 0.6rem;
+  border-radius: var(--radius-sm);
+  width: 100%;
+
+  &:hover,
+  &:focus {
+    background: var(--brand-muted);
+    color: var(--brand-foreground);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
